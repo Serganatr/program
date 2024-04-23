@@ -1,0 +1,266 @@
+   for (int i = 0; i < content.Length; i++)
+   {
+       if (content[i] == '"')
+       {
+           switch (result)
+           {
+               case "count":
+                   for (int j = i + 1; j < content.Length; j++)
+                   {
+                       if (content[j] == ':')
+                       {
+                           j++;
+                       }
+                       item += content[j];
+                       if (content[j + 1] == ',')
+                       {
+                           Save.count = Convert.ToInt32(item);
+                           i = j + 2;
+                           j = content.Length + 1;
+                           item = "";
+                       }
+                   }
+                   break;
+               case "start":
+                   for (int j = i + 1; j < content.Length; j++)
+                   {
+                       if (content[j] == ':')
+                       {
+                           j++;
+                       }
+                       item += content[j];
+                       if (content[j + 1] == ',')
+                       {
+                           Save.start = Convert.ToInt32(item);
+                           i = j + 2;
+                           j = content.Length + 1;
+                           item = "";
+                       }
+                   }
+                   break;
+               case "rows":
+                   for (int j = i + 1; j < content.Length; j++)
+                   {
+                       if (content[j] == ':')
+                       {
+                           j++;
+                       }
+                       item += content[j];
+                       if (content[j + 1] == ',')
+                       {
+                           Save.rows = Convert.ToInt32(item);
+                           i = j + 2;
+                           j = content.Length + 1;
+                           item = "";
+                       }
+                   }
+                   break;
+               case "vri_id":
+                   for (int j = i + 1; j < content.Length; j++)
+                   {
+                       if (content[j] == ':')
+                       {
+                           j = j + 2;
+                       }
+                       item += content[j];
+                       if (content[j + 2] == ',')
+                       {
+                           items.vri_id = item;
+                           i = j + 3;
+                           j = content.Length + 1;
+                           item = "";
+                       }
+                   }
+                   break;
+               case "org_title":
+                   for (int j = i + 1; j < content.Length; j++)
+                   {
+                       if (content[j] == ':')
+                       {
+                           j = j + 2;
+                       }
+                       item += content[j];
+                       if (content[j + 2] == ',')
+                       {
+                           items.org_title = item;
+                           i = j + 3;
+                           j = content.Length + 1;
+                           item = "";
+                       }
+                   }
+                   break;
+               case "mit_number":
+                   for (int j = i + 1; j < content.Length; j++)
+                   {
+                       if (content[j] == ':')
+                       {
+                           j = j + 2;
+                       }
+                       item += content[j];
+                       if (content[j + 2] == ',')
+                       {
+                           items.mit_number = item;
+                           i = j + 3;
+                           j = content.Length + 1;
+                           item = "";
+                       }
+                   }
+                   break;
+               case "mit_title":
+                   for (int j = i + 1; j < content.Length; j++)
+                   {
+                       if (content[j] == ':')
+                       {
+                           j = j + 2;
+                       }
+                       item += content[j];
+                       if (content[j + 2] == ',')
+                       {
+                           items.mit_title = item;
+                           i = j + 3;
+                           j = content.Length + 1;
+                           item = "";
+                       }
+                   }
+                   break;
+               case "mit_notation":
+                   for (int j = i + 1; j < content.Length; j++)
+                   {
+                       if (content[j] == ':')
+                       {
+                           j = j + 2;
+                       }
+                       item += content[j];
+                       if (content[j + 2] == ',')
+                       {
+                           items.mit_notation = item;
+                           i = j + 3;
+                           j = content.Length + 1;
+                           item = "";
+                       }
+                   }
+                   break;
+               case "mi_modification":
+                   for (int j = i + 1; j < content.Length; j++)
+                   {
+                       if (content[j] == ':')
+                       {
+                           j = j + 2;
+                       }
+                       item += content[j];
+                       if (content[j + 2] == ',')
+                       {
+                           items.mi_modification = item;
+                           i = j + 3;
+                           j = content.Length + 1;
+                           item = "";
+                       }
+                   }
+                   break;
+               case "mi_number":
+                   for (int j = i + 1; j < content.Length; j++)
+                   {
+                       if (content[j] == ':')
+                       {
+                           j = j + 2;
+                       }
+                       item += content[j];
+                       if (content[j + 2] == ',')
+                       {
+                           items.mi_number = item;
+                           i = j + 3;
+                           j = content.Length + 1;
+                           item = "";
+                       }
+                   }
+                   break;
+               case "verification_date":
+                   for (int j = i + 1; j < content.Length; j++)
+                   {
+                       if (content[j] == ':')
+                       {
+                           j = j + 2;
+                       }
+                       item += content[j];
+                       if (content[j + 2] == ',')
+                       {
+                           items.verification_date = item;
+                           i = j + 3;
+                           j = content.Length + 1;
+                           item = "";
+                       }
+                   }
+                   break;
+               case "valid_date":
+                   for (int j = i + 1; j < content.Length; j++)
+                   {
+                       if (content[j] == ':')
+                       {
+                           j = j + 2;
+                       }
+                       item += content[j];
+                       if (content[j + 2] == ',')
+                       {
+                           items.valid_date = item;
+                           i = j + 3;
+                           j = content.Length + 1;
+                           item = "";
+                       }
+                   }
+                   break;
+               case "result_docnum":
+                   for (int j = i + 1; j < content.Length; j++)
+                   {
+                       if (content[j] == ':')
+                       {
+                           j = j + 2;
+                       }
+                       item += content[j];
+                       if (content[j + 2] == ',')
+                       {
+                           items.result_docnum = item;
+                           i = j + 3;
+                           j = content.Length + 1;
+                           item = "";
+                       }
+                   }
+                   break;
+               case "applicability":
+                   for (int j = i + 1; j < content.Length; j++)
+                   {
+                       if (content[j] == ':')
+                       {
+                           j = j + 1;
+                       }
+                       item += content[j];
+                       if (content[j + 1] == '}')
+                       {
+                           if (item == "true")
+                           {
+                               items.applicability = true;
+                           }
+                           else
+                           {
+                               items.applicability = false;
+                           }
+                           i = j + 3;
+                           j = content.Length + 1;
+                           item = "";
+                       }
+                   }
+                   try
+                   {
+
+                   }
+                   catch (Exception e)
+                   {
+                       Console.WriteLine(e.ToString());
+                   }
+                   break;
+
+           }
+           result = "";
+           i++;
+       }
+       result += content[i];
+   }
