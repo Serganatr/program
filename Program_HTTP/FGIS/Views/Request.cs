@@ -103,6 +103,7 @@ namespace FGIS.Views
         private async void Request_HTTP(string mit_number, string mi_modification, string verification_date_start, string verification_date_end)
         {
             HTTP.items.Clear();
+            Result.items.Clear();
             using (FileStream fs = new("result.json", FileMode.OpenOrCreate))
             {
                 Save = await JsonSerializer.DeserializeAsync<Result>(fs);
@@ -137,45 +138,48 @@ namespace FGIS.Views
                     float percent;
                     do
                     {
-                        try
+                        do
                         {
-                            var response = await httpClient.GetAsync($"{Http_request}&start={start}&rows={100}");
-                            person = await response.Content.ReadFromJsonAsync<Result_HTTP>();
-                        }
-                        catch (Exception ex)
-                        {
-
-                            if (ex.Message == "'<' is an invalid start of a value. Path: $ | LineNumber: 0 | BytePositionInLine: 0.")
+                            True = true;
+                            try
                             {
-
+                                var response = await httpClient.GetAsync($"{Http_request}&start={start}&rows={100}");
+                                person = await response.Content.ReadFromJsonAsync<Result_HTTP>();
+                                if (Convert.ToInt32(person.result.count) > 99999)
+                                {
+                                    MessageBox.Show("Большое количество результатов, добавте или измените условия поиска");
+                                    return;
+                                }
+                                if (Convert.ToInt32(person.result.count) > 100)
+                                {
+                                    start = start + 100;
+                                }
+                                else
+                                {
+                                    start = start + Convert.ToInt32(person.result.count);
+                                }
+                                percent = start;
+                                percent = percent / Convert.ToInt32(person.result.count) * 100;
+                                Loading.Text = $"[{percent.ToString("0")}%]";
                             }
-                            if (ex.Message == "Этот хост неизвестен. (fgis.gost.ru:443)")
+                            catch (Exception ex)
                             {
-                                MessageBox.Show("Нет доступа к интернету");
-                                return;
+                                True = false;
+                                if (ex.Message == "'<' is an invalid start of a value. Path: $ | LineNumber: 0 | BytePositionInLine: 0.")
+                                {
+                                }
+                                else if (ex.Message == "Этот хост неизвестен. (fgis.gost.ru:443)")
+                                {
+                                    MessageBox.Show("Нет доступа к интернету");
+                                    return;
+                                }
+                                else
+                                {
+                                    MessageBox.Show(ex.Message);
+                                    return;
+                                }
                             }
-                            else
-                            {
-                                MessageBox.Show(ex.Message);
-                                return;
-                            }
-                        }
-                        try
-                        {
-                            if (Convert.ToInt32(person.result.count) > 100)
-                            {
-                                start = start + 100;
-                            }
-                            else
-                            {
-                                start = start + Convert.ToInt32(person.result.count);
-                            }
-                            percent = start;
-                            percent = percent / Convert.ToInt32(person.result.count) * 100;
-                            Loading.Text = $"[{percent.ToString("0")}%]";
-                        }
-                        catch { }
-                    } while (start < person.result.count);
+                        }while (True == false);
                     for (int i = 0; i < Convert.ToInt32(person.result.items.Count); i++)
                     {
                         var add = true;
@@ -244,6 +248,7 @@ namespace FGIS.Views
                             }
                         }
                     }
+                    } while (start < person.result.count);
                     var options = new JsonSerializerOptions
                     {
                         WriteIndented = true
@@ -268,8 +273,8 @@ namespace FGIS.Views
                                          item.result_docnum,
                                          item.applicability);
             }
-            MessageBox.Show("Поиск завершён");
             DataBase_INSERT();
+            MessageBox.Show("Поиск завершён");
         }
         private void DataBase_INSERT()
         {
@@ -299,14 +304,28 @@ namespace FGIS.Views
             string connectionString = "Data Source=Test.db;";
             using (SQLiteConnection sqlConnection = new SQLiteConnection(connectionString))
             {
-                string sqlQuery;
+                string sqlQuery = "";
                 sqlConnection.Open();
-                sqlQuery = $"DELETE FROM Result";
-                string cmd = sqlQuery;
-                SQLiteCommand command = new SQLiteCommand(cmd, sqlConnection);
-                SQLiteDataAdapter adapter = new SQLiteDataAdapter(command);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
+                for (int i = 0; i < 3; i++)
+                {
+                    switch (i)
+                    {
+                        case 0:
+                            sqlQuery = $"DELETE FROM ID_Results";
+                            break;
+                        case 1:
+                            sqlQuery = $"DELETE FROM ARG";
+                            break;
+                        case 2:
+                            sqlQuery = $"DELETE FROM Result";
+                            break;
+                    }
+                    string cmd = sqlQuery;
+                    SQLiteCommand command = new SQLiteCommand(cmd, sqlConnection);
+                    SQLiteDataAdapter adapter = new SQLiteDataAdapter(command);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+                }
                 sqlConnection.Close();
             }
         }

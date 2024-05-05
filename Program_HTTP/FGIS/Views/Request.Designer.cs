@@ -219,7 +219,7 @@
             verification_date_end.AccessibleDescription = "";
             verification_date_end.Location = new System.Drawing.Point(525, 263);
             verification_date_end.Name = "verification_date_end";
-            verification_date_end.PlaceholderText = "15.01.2024";
+            verification_date_end.PlaceholderText = "2024-12-30";
             verification_date_end.Size = new System.Drawing.Size(168, 23);
             verification_date_end.TabIndex = 42;
             // 
@@ -228,7 +228,7 @@
             verification_date_start.AccessibleDescription = "";
             verification_date_start.Location = new System.Drawing.Point(353, 263);
             verification_date_start.Name = "verification_date_start";
-            verification_date_start.PlaceholderText = "13.01.2024";
+            verification_date_start.PlaceholderText = "2024-01-01";
             verification_date_start.Size = new System.Drawing.Size(168, 23);
             verification_date_start.TabIndex = 41;
             // 
